@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.util.List;
 
 public class DataHelper extends SQLiteOpenHelper {
 
@@ -15,9 +14,8 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "WeatherHistory";
     public static final String TABLE_TITLE = "City name";
     public static final String TABLE_ID = "_id";
-    public static final String TABLE_DESC = "Temperature";
+    public static final String TABLE_DESC = "desc";
     public static final String HUMIDITY = "Humidity";
-    List<Migration> migrations;
 
     public DataHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -26,8 +24,9 @@ public class DataHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + TABLE_ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT," + TABLE_TITLE + "TEXT," + TABLE_DESC + "REAL );" );
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
+                TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                TABLE_TITLE + " TEXT," + TABLE_DESC + " TEXT);");
 
     }
 
