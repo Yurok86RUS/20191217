@@ -10,12 +10,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import geekbrains.ru.bdaplication.db.DataReader;
+
 public class NoteAdapter  extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
+    private final DataReader reader;
     private OnMenuItemClickListener itemMenuClickListener;
-    private Note note;
-    public NoteAdapter() {
+
+    public NoteAdapter(DataReader reader) {
         //TODO:add db provider
+        this.reader = reader;
     }
 
     @Override
@@ -27,16 +31,13 @@ public class NoteAdapter  extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(NoteAdapter.ViewHolder holder, int position) {
         //TODO:get item by position from db
-        Note note1 = new Note();
-        note1.setTitle("TEST" + position);
-        note1.setDescription("TEST DESCRIPTION");
-        holder.bind(note1);
+        holder.bind(reader.getPosition(position));
     }
 
     @Override
     public int getItemCount() {
         //TODO:get count from db
-        return 10;
+        return reader.getCoutn();
     }
 
     public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener){

@@ -24,11 +24,13 @@ public class DataSource implements Closeable {
     public void open() throws SQLException{
         database = dbHelper.getWritableDatabase();
         reader = new DataReader(database);
+        reader.open();
     }
 
     @Override
     public void close() throws IOException {
         database.close();
+        reader.close();
     }
 
     public Note add (String title, String desc){

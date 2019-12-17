@@ -11,21 +11,33 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import java.sql.SQLException;
+
+import geekbrains.ru.bdaplication.db.DataSource;
 
 public class MainActivity extends AppCompatActivity {
 
     private NoteAdapter adapter;
+    private DataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //TODO:init db
+        dataSource = new DataSource(this);
+        try {
+            dataSource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         RecyclerView recyclerView = findViewById(R.id.note_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new NoteAdapter();
+        adapter = new NoteAdapter(dataSource.getReader());
         adapter.setOnMenuItemClickListener(new NoteAdapter.OnMenuItemClickListener() {
             @Override
             public void onItemEditClick(Note note) {
@@ -62,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearList() {
+        dataSource.deleteAll();
+        refreshData();
+    }
+
+    private void refreshData() {
+        dataSource.getReader().refresh();
+        adapter.notifyDataSetChanged();
     }
 
     private void addElement() {
@@ -74,15 +93,24 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.menu_add, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                dataSource.add(
+                        ((EditText)alertView.findViewById(R.id.editTextNoteTitle)).getText().toString(),
+                        ((EditText) alertView.findViewById(R.id.editTextNote)).getText().toString()
+                );
+                refreshData();
             }
         });
         builder.show();
     }
 
     private void editElement(Note note) {
+        dataSource.edit(note,"edit title","edit desc");
+        refreshData();
     }
 
     private void deleteElement(Note note) {
+        dataSource.delete(note);
+        refreshData();
     }
 }
 
