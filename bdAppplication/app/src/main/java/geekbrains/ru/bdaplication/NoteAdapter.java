@@ -16,9 +16,6 @@ public class NoteAdapter  extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private Note note;
     public NoteAdapter() {
         //TODO:add db provider
-        note = new Note();
-        note.setTitle("TEST");
-        note.setDescription("TEST DESCRIPTION");
     }
 
     @Override
