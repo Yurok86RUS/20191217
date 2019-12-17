@@ -15,6 +15,7 @@ public class DataSource implements Closeable {
 
     private final DataHelper dbHelper;
     private SQLiteDatabase database;
+    private DataReader reader;
 
     public DataSource(Context context){
         dbHelper = new DataHelper(context);
@@ -22,6 +23,7 @@ public class DataSource implements Closeable {
 
     public void open() throws SQLException{
         database = dbHelper.getWritableDatabase();
+        reader = new DataReader(database);
     }
 
     @Override
@@ -39,5 +41,31 @@ public class DataSource implements Closeable {
         note.setTitle(title);
         note.setDescription(desc);
         return note;
+    }
+
+    public void edit(Note note, String title, String desc){
+        ContentValues values = new ContentValues();
+        values.put(DataHelper.TABLE_TITLE,title);
+        values.put(DataHelper.TABLE_DESC,desc);
+        values.put(DataHelper.TABLE_ID, note.getId());
+        database.update(DataHelper.TABLE_NAME,values,DataHelper.TABLE_ID + "=" + note.getId(),null);
+    }
+
+    public void delete (Note note){
+        database.delete(
+                DataHelper.TABLE_NAME,
+                DataHelper.TABLE_ID + "=" + note.getId(),
+                null);
+    }
+
+    public void deleteAll(){
+        database.delete(
+                DataHelper.TABLE_NAME,
+                null,
+                null);
+    }
+
+    public DataReader getReader() {
+        return reader;
     }
 }
