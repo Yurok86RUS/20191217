@@ -12,9 +12,9 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "WeatherHistory.db";
     public static final int DB_VERSION = 1;
     public static final String TABLE_NAME = "WeatherHistory";
-    public static final String TABLE_TITLE = "City name";
+    public static final String CITY_NAME = "Title";
     public static final String TABLE_ID = "_id";
-    public static final String TABLE_DESC = "desc";
+    public static final String TEMPERATURE = "desc";
     public static final String HUMIDITY = "Humidity";
 
     public DataHelper(@Nullable Context context) {
@@ -25,8 +25,8 @@ public class DataHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
-                TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                TABLE_TITLE + " TEXT," + TABLE_DESC + " TEXT);");
+                TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CITY_NAME + " TEXT, " + TEMPERATURE + " TEXT);");
 
     }
 
@@ -34,7 +34,7 @@ public class DataHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
         if (oldVersion == 1 && newVersion ==2){
-            String upgradeStr= "ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + HUMIDITY + "TEXT DEFAULT Humidity";
+            String upgradeStr= "ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + HUMIDITY + " TEXT DEFAULT Humidity";
             sqLiteDatabase.execSQL(upgradeStr);
         }
 

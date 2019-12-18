@@ -36,8 +36,8 @@ public class DataSource implements Closeable {
     public Note add (String title, String desc){
         Note note = new Note();
         ContentValues values = new ContentValues();
-        values.put(DataHelper.TABLE_TITLE,title);
-        values.put(DataHelper.TABLE_DESC,desc);
+        values.put(DataHelper.CITY_NAME,title);
+        values.put(DataHelper.TEMPERATURE,desc);
         long id = database.insert(DataHelper.TABLE_NAME,null,values);
         note.setId(id);
         note.setTitle(title);
@@ -47,8 +47,8 @@ public class DataSource implements Closeable {
 
     public void edit(Note note, String title, String desc){
         ContentValues values = new ContentValues();
-        values.put(DataHelper.TABLE_TITLE,title);
-        values.put(DataHelper.TABLE_DESC,desc);
+        values.put(DataHelper.CITY_NAME,title);
+        values.put(DataHelper.TEMPERATURE,desc);
         values.put(DataHelper.TABLE_ID, note.getId());
         database.update(DataHelper.TABLE_NAME,values,DataHelper.TABLE_ID + "=" + note.getId(),null);
     }

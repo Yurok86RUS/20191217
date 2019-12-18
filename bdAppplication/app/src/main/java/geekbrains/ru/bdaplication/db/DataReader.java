@@ -13,8 +13,8 @@ public class DataReader implements Closeable {
     private Cursor cursor;
     private String[] allColumns = {
             DataHelper.TABLE_ID,
-            DataHelper.TABLE_TITLE,
-            DataHelper.TABLE_DESC
+            DataHelper.CITY_NAME,
+            DataHelper.TEMPERATURE
     };
 
     public DataReader(SQLiteDatabase database) {
